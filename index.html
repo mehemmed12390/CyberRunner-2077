@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VibeLink Social</title>
+  <style>
+    /*
+      VibeLink Social UI
+      - Warm gender-neutral palette
+      - Light/Dark mode
+      - Rounded corners + soft shadows
+      - Responsive layout
+    */
+    :root {
+      --bg: #f8f6ff;
+      --bg-soft: #f2efff;
+      --card: #ffffff;
+      --text: #1f1a2b;
+      --text-muted: #6a637a;
+      --primary: #9a7dff;
+      --secondary: #7bb5ff;
+      --accent: #ffb566;
+      --danger: #ff6b6b;
+      --shadow: 0 10px 30px rgba(31, 26, 43, 0.12);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --gradient: linear-gradient(135deg, #a78bfa 0%, #7dd3fc 60%, #ffb566 100%);
+    }
+
+    body.dark {
+      --bg: #11101a;
+      --bg-soft: #1a1827;
+      --card: #1f1c2e;
+      --text: #f0edff;
+      --text-muted: #a5a0b3;
+      --shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+      --gradient: linear-gradient(135deg, #8b5cf6 0%, #60a5fa 60%, #f59e0b 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--gradient);
+      color: #fff;
+      padding: 24px;
+      border-bottom-left-radius: var(--radius-xl);
+      border-bottom-right-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .header-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand h1 {
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+
+    .brand p {
+      opacity: 0.9;
+    }
+
+    .mode-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.18);
+      padding: 8px 14px;
+      border-radius: 999px;
+    }
+
+    .mode-toggle span {
+      font-size: 0.85rem;
+    }
+
+    .mode-toggle input {
+      appearance: none;
+      width: 46px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 999px;
+      position: relative;
+      cursor: pointer;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .mode-toggle input::after {
+      content: "";
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 4px;
+      transition: 0.3s;
+    }
+
+    .mode-toggle input:checked {
+      background: rgba(31, 26, 43, 0.55);
+    }
+
+    .mode-toggle input:checked::after {
+      transform: translateX(20px);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 24px;
+      padding: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    section {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    .profile-card {
+      display: grid;
+      gap: 16px;
+    }
+
+    .profile-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: 1px;
+      box-shadow: var(--shadow);
+    }
+
+    .profile-details {
+      flex: 1;
+    }
+
+    .profile-details h3 {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .profile-details p {
+      color: var(--text-muted);
+    }
+
+    .profile-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--bg-soft);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .pill {
+      background: rgba(255, 181, 102, 0.2);
+      color: #b25e00;
+      font-weight: 600;
+    }
+
+    .input-group {
+      background: var(--bg-soft);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .input-group input,
+    .input-group textarea,
+    .input-group select {
+      border: none;
+      background: transparent;
+      width: 100%;
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+      resize: none;
+    }
+
+    .input-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .cta {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      background: var(--gradient);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .post-card {
+      display: grid;
+      gap: 12px;
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      background: linear-gradient(145deg, rgba(167, 139, 250, 0.15), rgba(125, 211, 252, 0.12));
+      border: 1px solid rgba(167, 139, 250, 0.25);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 26px rgba(154, 125, 255, 0.2);
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .post-content {
+      font-size: 1rem;
+    }
+
+    .emoji-bg {
+      position: absolute;
+      top: -20px;
+      right: -10px;
+      font-size: 4rem;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .reaction-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .reaction {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: transform 0.2s ease;
+    }
+
+    .reaction:hover {
+      transform: scale(1.08);
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .story-card {
+      background: linear-gradient(140deg, rgba(255, 181, 102, 0.18), rgba(167, 139, 250, 0.18));
+      border-radius: var(--radius-md);
+      padding: 12px;
+      min-height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.5), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .story-card:hover::after {
+      opacity: 1;
+    }
+
+    .story-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .waveform {
+      display: flex;
+      gap: 4px;
+      align-items: flex-end;
+      margin-top: 14px;
+      height: 40px;
+    }
+
+    .waveform span {
+      width: 6px;
+      border-radius: 999px;
+      background: var(--primary);
+      animation: wave 1.2s infinite ease-in-out;
+    }
+
+    .waveform span:nth-child(2) { height: 14px; animation-delay: 0.1s; }
+    .waveform span:nth-child(3) { height: 24px; animation-delay: 0.2s; }
+    .waveform span:nth-child(4) { height: 18px; animation-delay: 0.3s; }
+    .waveform span:nth-child(5) { height: 26px; animation-delay: 0.4s; }
+
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.6); }
+      50% { transform: scaleY(1.3); }
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--bg-soft);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .chat-card {
+      display: grid;
+      gap: 12px;
+    }
+
+    .chat-message {
+      background: var(--bg-soft);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      font-size: 0.9rem;
+    }
+
+    .chat-message strong {
+      color: var(--primary);
+    }
+
+    .status-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      background: rgba(123, 181, 255, 0.2);
+      color: #3a5d9f;
+    }
+
+    .sidebar {
+      display: grid;
+      gap: 24px;
+    }
+
+    .age-banner {
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 181, 102, 0.2));
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .age-banner strong {
+      color: var(--danger);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 24px;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 980px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .grid-two {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Splash -->
+  <header>
+    <div class="header-content">
+      <div class="brand">
+        <h1>VibeLink Social</h1>
+        <p>Warm, safe, and expressive social spaces for 18+ communities.</p>
+      </div>
+      <label class="mode-toggle" for="modeToggle">
+        <span>Light/Dark</span>
+        <input id="modeToggle" type="checkbox" />
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <div class="main-content">
+      <!-- Profile Section -->
+      <section>
+        <h2>Profile</h2>
+        <p class="subtitle">Name & nickname can be empty; nickname auto-generates if blank.</p>
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="avatar">VL</div>
+            <div class="profile-details">
+              <h3>Anonymous User</h3>
+              <p>@autofill_nick · Age Range: <span class="pill">22–25</span></p>
+            </div>
+            <button class="cta">Edit Profile</button>
+          </div>
+          <div class="profile-grid">
+            <div>
+              <div class="input-label">Bio (auto-generated by age range)</div>
+              <div class="input-group">
+                <textarea rows="2">Mooduma görə paylaşıram</textarea>
+              </div>
+            </div>
+            <div>
+              <div class="input-label">Bio suggestions</div>
+              <div class="chip-row">
+                <span class="chip">"Mooduma görə paylaşıram"</span>
+                <span class="chip">"Söz az, vibe çox"</span>
+                <span class="chip">"Dərin mövzular"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Posts Section -->
+      <section>
+        <h2>Posts</h2>
+        <p class="subtitle">Text, voice note (10–60s), or combined. Auto-delete after 48h.</p>
+        <div class="grid-two">
+          <article class="post-card">
+            <span class="emoji-bg">🌙</span>
+            <div class="post-meta">
+              <span>Text + Voice · 36s</span>
+              <span>Expires: 32h</span>
+            </div>
+            <div class="post-content">
+              Soft nights, loud thoughts. Voice note attached to match the vibe.
+            </div>
+            <div class="reaction-row">
+              <button class="reaction" aria-label="auto reaction">✨</button>
+              <button class="reaction" aria-label="auto reaction">🌈</button>
+              <button class="reaction" aria-label="auto reaction">🫶</button>
+              <button class="reaction" aria-label="auto reaction">💭</button>
+            </div>
+          </article>
+          <article class="post-card">
+            <span class="emoji-bg">🔥</span>
+            <div class="post-meta">
+              <span>Voice Note · 52s</span>
+              <span>Expires: 18h</span>
+            </div>
+            <div class="post-content">
+              Voice-only check-in. Choose your background, font, and emoji vibe.
+            </div>
+            <div class="reaction-row">
+              <button class="reaction" aria-label="auto reaction">🎧</button>
+              <button class="reaction" aria-label="auto reaction">😌</button>
+              <button class="reaction" aria-label="auto reaction">🔥</button>
+              <button class="reaction" aria-label="auto reaction">💜</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Stories Section -->
+      <section>
+        <h2>Stories</h2>
+        <p class="subtitle">Durations: 6s, 10s, 15s · Screenshot alerts · Silent story option.</p>
+        <div class="story-grid">
+          <div class="story-card">
+            <div class="story-header">
+              <span>Story · 10s</span>
+              <span>DM: Open</span>
+            </div>
+            <p>“Silent story” enabled — sound plays only on headphones.</p>
+            <div class="waveform" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="chip-row">
+              <span class="chip">Reactions: Closed</span>
+              <span class="chip">Screenshot alert</span>
+            </div>
+          </div>
+          <div class="story-card">
+            <div class="story-header">
+              <span>Story · 6s</span>
+              <span>DM: Closed</span>
+            </div>
+            <p>Gradient mood background shifts based on vibe.</p>
+            <div class="waveform" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="chip-row">
+              <span class="chip">Reactions: Open</span>
+              <span class="chip">Voice note</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DM / Chat Section -->
+      <section>
+        <h2>DM / Chat System</h2>
+        <p class="subtitle">AI suggestions, mood indicators, slow mode, and cooldowns.</p>
+        <div class="chat-card">
+          <div class="status-row">
+            <span class="status">Mood: Active</span>
+            <span class="status">Slow Mode: 15s</span>
+            <span class="status">Cooldown: On</span>
+          </div>
+          <div class="chat-message"><strong>AI Assist:</strong> “Start with: Hey, how’s your night going?”</div>
+          <div class="chat-message"><strong>Auto Suggest:</strong> “I’m listening if you want to vent.”</div>
+          <div class="input-group">
+            <input type="text" placeholder="Type a message..." />
+            <button class="cta">Send</button>
+          </div>
+          <div class="chip-row">
+            <span class="chip">Mute 1h</span>
+            <span class="chip">Pause Chat 24h</span>
+            <span class="chip">AI-assisted replies</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Group Chat Section -->
+      <section>
+        <h2>Group Chats</h2>
+        <p class="subtitle">AI moderates fights, swearing, and spam invisibly.</p>
+        <div class="chat-card">
+          <div class="chat-message"><strong>System:</strong> Calm tone nudges delivered quietly.</div>
+          <div class="chat-message"><strong>AI Monitor:</strong> Chat slowed to keep things respectful.</div>
+          <div class="chip-row">
+            <span class="chip">Neutral calm messages</span>
+            <span class="chip">Auto slow mode</span>
+            <span class="chip">Temp pause available</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <section class="age-banner">
+        <h2>18+ Only</h2>
+        <p>
+          Signup is restricted to users <strong>18 and above</strong>. Under 18 accounts are blocked.
+          Profiles show age ranges only (18–21, 22–25, 26–30).
+        </p>
+        <div class="input-group">
+          <select aria-label="Age range">
+            <option>18–21</option>
+            <option selected>22–25</option>
+            <option>26–30</option>
+          </select>
+          <button class="cta">Verify Age</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Auto-Reactions</h2>
+        <p class="subtitle">Round, intuitive reactions replace likes.</p>
+        <div class="reaction-row">
+          <button class="reaction">🌟</button>
+          <button class="reaction">🫧</button>
+          <button class="reaction">💬</button>
+          <button class="reaction">🎵</button>
+          <button class="reaction">🤍</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Post Styling</h2>
+        <p class="subtitle">Pick backgrounds, fonts, emoji overlays, and lifespan.</p>
+        <div class="chip-row">
+          <span class="chip">Font: Serif Glow</span>
+          <span class="chip">BG: Soft Purple</span>
+          <span class="chip">Emoji: ✨</span>
+          <span class="chip">Auto-delete: 48h</span>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <footer>
+    Creator by Mehemmed
+  </footer>
+
+  <script>
+    // Light/Dark mode toggle demo
+    const modeToggle = document.getElementById("modeToggle");
+    modeToggle.addEventListener("change", () => {
+      document.body.classList.toggle("dark", modeToggle.checked);
+    });
+  </script>
+</body>
+</html>
